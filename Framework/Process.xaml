@@ -1,0 +1,580 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/python" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="UiPathEventConnector" Type="InArgument(x:String)" />
+    <x:Property Name="UiPathEvent" Type="InArgument(x:String)" />
+    <x:Property Name="UiPathEventObjectType" Type="InArgument(x:String)" />
+    <x:Property Name="UiPathEventObjectId" Type="InArgument(x:String)" />
+    <x:Property Name="UiPathAdditionalEventData" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
+    <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+  </x:Members>
+  <this:Process.UiPathEventConnector>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Process.UiPathEventConnector>
+  <this:Process.UiPathEvent>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Process.UiPathEvent>
+  <this:Process.UiPathEventObjectType>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Process.UiPathEventObjectType>
+  <this:Process.UiPathEventObjectId>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Process.UiPathEventObjectId>
+  <this:Process.UiPathAdditionalEventData>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Process.UiPathAdditionalEventData>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>818.4,454.4</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="100">
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Windows.Forms</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>UiPath.Python.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Python</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>Microsoft</x:String>
+      <x:String>Microsoft.Win32.SafeHandles</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Globalization</x:String>
+      <x:String>System.Configuration.Assemblies</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.CodeDom.Compiler</x:String>
+      <x:String>System.Buffers</x:String>
+      <x:String>System.Buffers.Text</x:String>
+      <x:String>System.Buffers.Binary</x:String>
+      <x:String>System.Threading</x:String>
+      <x:String>System.Threading.Tasks</x:String>
+      <x:String>System.Threading.Tasks.Sources</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.Unicode</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.Security.Principal</x:String>
+      <x:String>System.Security.Permissions</x:String>
+      <x:String>System.Security.Cryptography</x:String>
+      <x:String>System.Runtime</x:String>
+      <x:String>System.Runtime.Remoting</x:String>
+      <x:String>System.Runtime.ExceptionServices</x:String>
+      <x:String>System.Runtime.ConstrainedExecution</x:String>
+      <x:String>System.Runtime.Versioning</x:String>
+      <x:String>System.Runtime.Loader</x:String>
+      <x:String>System.Runtime.Intrinsics</x:String>
+      <x:String>System.Runtime.Intrinsics.Wasm</x:String>
+      <x:String>System.Runtime.Intrinsics.Arm</x:String>
+      <x:String>System.Runtime.Intrinsics.X86</x:String>
+      <x:String>System.Runtime.InteropServices.ObjectiveC</x:String>
+      <x:String>System.Runtime.InteropServices.Marshalling</x:String>
+      <x:String>System.Runtime.InteropServices.ComTypes</x:String>
+      <x:String>System.Runtime.CompilerServices</x:String>
+      <x:String>System.Resources</x:String>
+      <x:String>System.Reflection.Metadata</x:String>
+      <x:String>System.Reflection.Emit</x:String>
+      <x:String>System.IO.Enumeration</x:String>
+      <x:String>System.Diagnostics.SymbolStore</x:String>
+      <x:String>System.Diagnostics.Contracts</x:String>
+      <x:String>System.Diagnostics.CodeAnalysis</x:String>
+      <x:String>System.Diagnostics.Tracing</x:String>
+      <x:String>System.Collections.Concurrent</x:String>
+      <x:String>Internal</x:String>
+      <x:String>System.CodeDom</x:String>
+      <x:String>Microsoft.CSharp</x:String>
+      <x:String>System.Linq.Expressions.Interpreter</x:String>
+      <x:String>System.Dynamic</x:String>
+      <x:String>System.ComponentModel.Design.Serialization</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Security.Authentication.ExtendedProtection</x:String>
+      <x:String>System.Timers</x:String>
+      <x:String>System.ComponentModel.Design</x:String>
+      <x:String>System.Xml.Schema</x:String>
+      <x:String>System.Xml.Xsl</x:String>
+      <x:String>System.Xml.Xsl.Runtime</x:String>
+      <x:String>System.Xml.XPath</x:String>
+      <x:String>System.Xml.Resolvers</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.CodeAnalysis</x:String>
+      <x:String>Microsoft.VisualBasic.FileIO</x:String>
+      <x:String>System.Security.Authentication</x:String>
+      <x:String>System.Net.Cache</x:String>
+      <x:String>System.Net.NetworkInformation</x:String>
+      <x:String>System.Net.Security</x:String>
+      <x:String>System.Net.Sockets</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="160">
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Windows.Forms</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>NPOI.Core</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>UiPath.Python.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Python</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Validation</AssemblyReference>
+      <AssemblyReference>System.Security.Cryptography</AssemblyReference>
+      <AssemblyReference>System.Security.Principal.Windows</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.Process</AssemblyReference>
+      <AssemblyReference>System.IO.MemoryMappedFiles</AssemblyReference>
+      <AssemblyReference>Microsoft.Win32.Registry</AssemblyReference>
+      <AssemblyReference>System.IO.Pipes</AssemblyReference>
+      <AssemblyReference>System.Net.Primitives</AssemblyReference>
+      <AssemblyReference>System.Net.HttpListener</AssemblyReference>
+      <AssemblyReference>System.Net.WebProxy</AssemblyReference>
+      <AssemblyReference>System.Net.NameResolution</AssemblyReference>
+      <AssemblyReference>System.Net.WebHeaderCollection</AssemblyReference>
+      <AssemblyReference>System.Net.WebClient</AssemblyReference>
+      <AssemblyReference>System.Net.Requests</AssemblyReference>
+      <AssemblyReference>System.Net.ServicePoint</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.CodeDom</AssemblyReference>
+      <AssemblyReference>System.Threading.AccessControl</AssemblyReference>
+      <AssemblyReference>System.Threading</AssemblyReference>
+      <AssemblyReference>UiPath.Vision.Core</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Core</AssemblyReference>
+      <AssemblyReference>System.Threading.Tasks.Parallel</AssemblyReference>
+      <AssemblyReference>System.Text.Encoding.CodePages</AssemblyReference>
+      <AssemblyReference>System.Text.Encodings.Web</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.Security.Claims</AssemblyReference>
+      <AssemblyReference>System.Security.Cryptography.Pkcs</AssemblyReference>
+      <AssemblyReference>System.Security.Cryptography.ProtectedData</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>System.Runtime.CompilerServices.VisualC</AssemblyReference>
+      <AssemblyReference>System.Resources.Writer</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.StackTrace</AssemblyReference>
+      <AssemblyReference>System.Collections.Concurrent</AssemblyReference>
+      <AssemblyReference>System.Windows.Forms.Design</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>System.Net.Security</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Private.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Xml.XPath.XDocument</AssemblyReference>
+      <AssemblyReference>Microsoft.CodeAnalysis.Features</AssemblyReference>
+      <AssemblyReference>System.Net.NetworkInformation</AssemblyReference>
+      <AssemblyReference>System.Net.Ping</AssemblyReference>
+      <AssemblyReference>System.Net.Sockets</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap:VirtualizedContainerService.HintSize="1281,3010" sap2010:WorkflowViewState.IdRef="Sequence_10">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="varName" />
+      <Variable x:TypeArguments="x:String" Name="varPDFPath" />
+      <Variable x:TypeArguments="x:Double" Name="varGPA" />
+      <Variable x:TypeArguments="x:String" Name="varGrade5" />
+      <Variable x:TypeArguments="x:String" Name="varGrade4" />
+      <Variable x:TypeArguments="x:String" Name="varGrade3" />
+      <Variable x:TypeArguments="x:String" Name="varGrade2" />
+      <Variable x:TypeArguments="x:String" Name="varGrade1" />
+      <Variable x:TypeArguments="x:Int32" Name="varMark5" />
+      <Variable x:TypeArguments="x:Int32" Name="varMark4" />
+      <Variable x:TypeArguments="x:Int32" Name="varMark3" />
+      <Variable x:TypeArguments="x:Int32" Name="varMark2" />
+      <Variable x:TypeArguments="x:Int32" Name="varMark1" />
+      <Variable x:TypeArguments="x:String" Name="varSubject5" />
+      <Variable x:TypeArguments="x:String" Name="varSubject4" />
+      <Variable x:TypeArguments="x:String" Name="varSubject3" />
+      <Variable x:TypeArguments="x:String" Name="varSubject2" />
+      <Variable x:TypeArguments="x:String" Name="varSubject1" />
+      <Variable x:TypeArguments="x:String" Name="varDepartment" />
+      <Variable x:TypeArguments="x:String" Name="varYear" />
+      <Variable x:TypeArguments="x:String" Name="varSemester" />
+      <Variable x:TypeArguments="x:String" Name="varDOB" />
+      <Variable x:TypeArguments="x:String" Name="varRollNumber" />
+      <Variable x:TypeArguments="x:Boolean" Name="pdfExists" />
+      <Variable x:TypeArguments="p:PythonObject" Name="varInvokePy" />
+      <Variable x:TypeArguments="p:PythonObject" Name="pythonModule" />
+      <Variable x:TypeArguments="x:Object" Name="pdfResource" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:ManualTrigger Result="{x:Null}" DisplayName="Empty Thought" sap:VirtualizedContainerService.HintSize="486,79" sap2010:WorkflowViewState.IdRef="ManualTrigger_1" />
+    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Started Process&quot;]" />
+    <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="486,614" sap2010:WorkflowViewState.IdRef="MultipleAssign_2">
+      <ui:MultipleAssign.AssignOperations>
+        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="32">
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_16">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varName]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Name").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_17">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varRollNumber]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("RollNumber").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_18">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varDOB]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("DOB").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_19">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varSemester]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Semester").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_20">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varYear]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Year").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_21">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varDepartment]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Department").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_22">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varSubject1]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Subject1").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_23">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:Int32">[varMark1]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(in_TransactionItem.SpecificContent("Mark1"))]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_24">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varSubject2]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Subject2").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_25">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:Int32">[varMark2]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(in_TransactionItem.SpecificContent("Mark2"))]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_26">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varSubject3]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Subject3").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_27">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:Int32">[varMark3]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(in_TransactionItem.SpecificContent("Mark3"))]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_28">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varSubject4]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Subject4").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_29">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:Int32">[varMark4]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(in_TransactionItem.SpecificContent("Mark4"))]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_30">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[varSubject5]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Subject5").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_31">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:Int32">[varMark5]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(in_TransactionItem.SpecificContent("Mark5"))]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+        </scg:List>
+      </ui:MultipleAssign.AssignOperations>
+    </ui:MultipleAssign>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Processing student: &quot; &amp; varName &amp; &quot; (Roll: &quot; &amp; varRollNumber &amp; &quot;)&quot;]" />
+    <ui:InvokeCode Code="Dim marks As Integer() = {varMark1, varMark2, varMark3, varMark4, varMark5}&#xA;Dim subjects As String() = {&quot;Subject 1&quot;, &quot;Subject 2&quot;, &quot;Subject 3&quot;, &quot;Subject 4&quot;, &quot;Subject 5&quot;}&#xA;&#xA;For i As Integer = 0 To marks.Length - 1&#xA;    If marks(i) &lt; 0 OrElse marks(i) &gt; 100 Then&#xA;        Throw New BusinessRuleException(&quot;Invalid marks for &quot; + subjects(i) + &quot;: &quot; + marks(i).ToString + &quot;. Marks must be between 0-100.&quot;)&#xA;    End If&#xA;Next&#xA;&#xA;If varMark1 &gt;= 90 Then&#xA;    varGrade1 = &quot;A&quot;&#xA;ElseIf varMark1 &gt;= 80 Then&#xA;    varGrade1 = &quot;B&quot;&#xA;ElseIf varMark1 &gt;= 70 Then&#xA;    varGrade1 = &quot;C&quot;&#xA;ElseIf varMark1 &gt;= 60 Then&#xA;    varGrade1 = &quot;D&quot;&#xA;ElseIf varMark1 &gt;= 50 Then&#xA;    varGrade1 = &quot;E&quot;&#xA;Else&#xA;    varGrade1 = &quot;F&quot;&#xA;End If&#xA;&#xA;If varMark2 &gt;= 90 Then&#xA;    varGrade2 = &quot;A&quot;&#xA;ElseIf varMark2 &gt;= 80 Then&#xA;    varGrade2 = &quot;B&quot;&#xA;ElseIf varMark2 &gt;= 70 Then&#xA;    varGrade2 = &quot;C&quot;&#xA;ElseIf varMark2 &gt;= 60 Then&#xA;    varGrade2 = &quot;D&quot;&#xA;ElseIf varMark2 &gt;= 50 Then&#xA;    varGrade2 = &quot;E&quot;&#xA;Else&#xA;    varGrade2 = &quot;F&quot;&#xA;End If&#xA;&#xA;If varMark3 &gt;= 90 Then&#xA;    varGrade3 = &quot;A&quot;&#xA;ElseIf varMark3 &gt;= 80 Then&#xA;    varGrade3 = &quot;B&quot;&#xA;ElseIf varMark3 &gt;= 70 Then&#xA;    varGrade3 = &quot;C&quot;&#xA;ElseIf varMark3 &gt;= 60 Then&#xA;    varGrade3 = &quot;D&quot;&#xA;ElseIf varMark3 &gt;= 50 Then&#xA;    varGrade3 = &quot;E&quot;&#xA;Else&#xA;    varGrade3 = &quot;F&quot;&#xA;End If&#xA;&#xA;If varMark4 &gt;= 90 Then&#xA;    varGrade4 = &quot;A&quot;&#xA;ElseIf varMark4 &gt;= 80 Then&#xA;    varGrade4 = &quot;B&quot;&#xA;ElseIf varMark4 &gt;= 70 Then&#xA;    varGrade4 = &quot;C&quot;&#xA;ElseIf varMark4 &gt;= 60 Then&#xA;    varGrade4 = &quot;D&quot;&#xA;ElseIf varMark4 &gt;= 50 Then&#xA;    varGrade4 = &quot;E&quot;&#xA;Else&#xA;    varGrade4 = &quot;F&quot;&#xA;End If&#xA;&#xA;If varMark5 &gt;= 90 Then&#xA;    varGrade5 = &quot;A&quot;&#xA;ElseIf varMark5 &gt;= 80 Then&#xA;    varGrade5 = &quot;B&quot;&#xA;ElseIf varMark5 &gt;= 70 Then&#xA;    varGrade5 = &quot;C&quot;&#xA;ElseIf varMark5 &gt;= 60 Then&#xA;    varGrade5 = &quot;D&quot;&#xA;ElseIf varMark5 &gt;= 50 Then&#xA;    varGrade5 = &quot;E&quot;&#xA;Else&#xA;    varGrade5 = &quot;F&quot;&#xA;End If&#xA;&#xA;Dim gp1 As Double = 0&#xA;If varGrade1 = &quot;A&quot; Then gp1 = 10.0&#xA;If varGrade1 = &quot;B&quot; Then gp1 = 8.0&#xA;If varGrade1 = &quot;C&quot; Then gp1 = 6.0&#xA;If varGrade1 = &quot;D&quot; Then gp1 = 4.0&#xA;If varGrade1 = &quot;E&quot; Then gp1 = 2.0&#xA;&#xA;Dim gp2 As Double = 0&#xA;If varGrade2 = &quot;A&quot; Then gp2 = 10.0&#xA;If varGrade2 = &quot;B&quot; Then gp2 = 8.0&#xA;If varGrade2 = &quot;C&quot; Then gp2 = 6.0&#xA;If varGrade2 = &quot;D&quot; Then gp2 = 4.0&#xA;If varGrade2 = &quot;E&quot; Then gp2 = 2.0&#xA;&#xA;Dim gp3 As Double = 0&#xA;If varGrade3 = &quot;A&quot; Then gp3 = 10.0&#xA;If varGrade3 = &quot;B&quot; Then gp3 = 8.0&#xA;If varGrade3 = &quot;C&quot; Then gp3 = 6.0&#xA;If varGrade3 = &quot;D&quot; Then gp3 = 4.0&#xA;If varGrade3 = &quot;E&quot; Then gp3 = 2.0&#xA;&#xA;Dim gp4 As Double = 0&#xA;If varGrade4 = &quot;A&quot; Then gp4 = 10.0&#xA;If varGrade4 = &quot;B&quot; Then gp4 = 8.0&#xA;If varGrade4 = &quot;C&quot; Then gp4 = 6.0&#xA;If varGrade4 = &quot;D&quot; Then gp4 = 4.0&#xA;If varGrade4 = &quot;E&quot; Then gp4 = 2.0&#xA;&#xA;Dim gp5 As Double = 0&#xA;If varGrade5 = &quot;A&quot; Then gp5 = 10.0&#xA;If varGrade5 = &quot;B&quot; Then gp5 = 8.0&#xA;If varGrade5 = &quot;C&quot; Then gp5 = 6.0&#xA;If varGrade5 = &quot;D&quot; Then gp5 = 4.0&#xA;If varGrade5 = &quot;E&quot; Then gp5 = 2.0&#xA;&#xA;varGPA = Math.Round((gp1 + gp2 + gp3 + gp4 + gp5) / 5, 2)" ContinueOnError="False" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="486,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark1">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark1" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark2">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark2" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark3">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark3" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark4">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark4" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark5">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark5" />
+        </InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade1">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade1" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade2">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade2" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade3">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade3" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade4">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade4" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade5">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade5" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:Double" x:Key="varGPA">
+          <VisualBasicReference x:TypeArguments="x:Double" ExpressionText="varGPA" />
+        </OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Grades: &quot; &amp; varGrade1 &amp; &quot;,&quot; &amp; varGrade2 &amp; &quot;,&quot; &amp; varGrade3 &amp; &quot;,&quot; &amp; varGrade4 &amp; &quot;,&quot; &amp; varGrade5 &amp; &quot; | GPA: &quot; &amp; varGPA.ToString()]" />
+    <Assign DisplayName="Assign" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[varPDFPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Path.Combine(in_Config("OutputFolderPath").ToString, "Marksheet_" + varRollNumber + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;Python command: python Scripts\generate_marksheet.py &quot; + varName + &quot; &quot; + varRollNumber + &quot; ...&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim psi As New System.Diagnostics.ProcessStartInfo()&#xD;&#xA;psi.FileName = &quot;python&quot;&#xD;&#xA;psi.Arguments = String.Format(&quot;Scripts\generate_marksheet.py &quot;&quot;{0}&quot;&quot; &quot;&quot;{1}&quot;&quot; &quot;&quot;{2}&quot;&quot; &quot;&quot;{3}&quot;&quot; &quot;&quot;{4}&quot;&quot; &quot;&quot;{5}&quot;&quot; &quot;&quot;{6}&quot;&quot; {7} &quot;&quot;{8}&quot;&quot; &quot;&quot;{9}&quot;&quot; {10} &quot;&quot;{11}&quot;&quot; &quot;&quot;{12}&quot;&quot; {13} &quot;&quot;{14}&quot;&quot; &quot;&quot;{15}&quot;&quot; {16} &quot;&quot;{17}&quot;&quot; &quot;&quot;{18}&quot;&quot; {19} &quot;&quot;{20}&quot;&quot; {21} &quot;&quot;{22}&quot;&quot; &quot;&quot;{23}&quot;&quot;&quot;, varName, varRollNumber, varDOB, varSemester, varYear, varDepartment, varSubject1, varMark1, varGrade1, varSubject2, varMark2, varGrade2, varSubject3, varMark3, varGrade3, varSubject4, varMark4, varGrade4, varSubject5, varMark5, varGrade5, varGPA, institutionName, varPDFPath)&#xD;&#xA;psi.UseShellExecute = False&#xD;&#xA;psi.CreateNoWindow = True&#xD;&#xA;psi.WorkingDirectory = Environment.CurrentDirectory&#xD;&#xA;&#xD;&#xA;Dim proc As System.Diagnostics.Process = System.Diagnostics.Process.Start(psi)&#xD;&#xA;proc.WaitForExit()" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="486,197" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="institutionName">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;InstitutionName&quot;).ToString" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varPDFPath">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varPDFPath" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Double" x:Key="varGPA">
+          <VisualBasicValue x:TypeArguments="x:Double" ExpressionText="varGPA" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade5">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade5" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade4">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade4" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade3">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade3" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade2">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade2" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade1">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade1" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark5">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark5" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark4">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark4" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark3">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark3" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark2">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark2" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark1">
+          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark1" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject5">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject5" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject4">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject4" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject3">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject3" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject2">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject2" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject1">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject1" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varDepartment">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varDepartment" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varYear">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varYear" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSemester">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSemester" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varDOB">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varDOB" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varRollNumber">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varRollNumber" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varName">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varName" />
+        </InArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="486,123" sap2010:WorkflowViewState.IdRef="Delay_1" />
+    <ui:PathExists DisplayName="Get Local File or Folder" Exists="[pdfExists]" sap:VirtualizedContainerService.HintSize="486,174" sap2010:WorkflowViewState.IdRef="PathExists_2" Path="[varPDFPath]" PathType="File" Resource="[pdfResource]" />
+    <If Condition="[pdfExists]" DisplayName="If" sap:VirtualizedContainerService.HintSize="486,728" sap2010:WorkflowViewState.IdRef="If_2">
+      <If.Then>
+        <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="484,325" sap2010:WorkflowViewState.IdRef="Sequence_7">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,261" sap2010:WorkflowViewState.IdRef="Sequence_6">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,170" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;PDF generated successfully: &quot; &amp; varPDFPath]" />
+          </Sequence>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="484,273" sap2010:WorkflowViewState.IdRef="Sequence_9">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,209" sap2010:WorkflowViewState.IdRef="Sequence_8">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Throw DisplayName="Throw" Exception="[New UiPath.Core.BusinessRuleException(&quot;PDF generation failed for &quot; &amp; varRollNumber)]" sap:VirtualizedContainerService.HintSize="416,118" sap2010:WorkflowViewState.IdRef="Throw_2" />
+          </Sequence>
+        </Sequence>
+      </If.Else>
+    </If>
+  </Sequence>
+</Activity>

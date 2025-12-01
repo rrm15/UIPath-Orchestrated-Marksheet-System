@@ -1,0 +1,47 @@
+{
+  "version": "2.0",
+  "resources": [
+    {
+      "activityDisplayName": "Add Queue Item",
+      "activityId": "AddQueueItem_1",
+      "resource": "queue",
+      "key": "220701283@rajalakshmi.edu.in's workspace.MarksheetQueue",
+      "id": "queue220701283@rajalakshmi.edu.in's workspace.MarksheetQueue220701283@rajalakshmi.edu.in's workspaceFalseMarksheetQueueFalse",
+      "value": {
+        "folderPath": {
+          "defaultValue": "220701283@rajalakshmi.edu.in's workspace",
+          "isExpression": false,
+          "displayName": "Folder Path"
+        },
+        "name": {
+          "defaultValue": "MarksheetQueue",
+          "isExpression": false,
+          "displayName": "Queue name"
+        }
+      },
+      "metadata": {
+        "BindingsVersion": "2.2"
+      }
+    },
+    {
+      "activityDisplayName": "Send SMTP Email",
+      "activityId": "SendMail_2",
+      "resource": "Connection",
+      "key": "c647c06f-3937-4d6e-ad01-b0176991445d",
+      "id": "Connectionc647c06f-3937-4d6e-ad01-b0176991445dc647c06f-3937-4d6e-ad01-b0176991445dFalse",
+      "value": {
+        "ConnectionId": {
+          "defaultValue": "c647c06f-3937-4d6e-ad01-b0176991445d",
+          "isExpression": false,
+          "displayName": "Connection",
+          "description": "The connection to be used"
+        }
+      },
+      "metadata": {
+        "BindingsVersion": "2.1",
+        "UseConnectionService": "True",
+        "Connector": "uipath-mail-mail"
+      }
+    }
+  ]
+}
