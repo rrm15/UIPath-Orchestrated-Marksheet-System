@@ -4,10 +4,6 @@
 
 A comprehensive automation solution for generating professional student marksheets using UiPath REFramework, Python, and cloud orchestration. This system processes student data from CSV files, calculates grades and GPA, generates PDF marksheets, and delivers them via email - all in a fully automated, queue-based workflow.
 
-**Status:** ✅ Production Ready  
-**Version:** 1.0.0  
-**Last Updated:** December 2024
-
 ---
 
 ## 🎯 Problem Statement
