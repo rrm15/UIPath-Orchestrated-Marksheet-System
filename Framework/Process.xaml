@@ -55,8 +55,6 @@
       <x:String>System.Xml.Linq</x:String>
       <x:String>UiPath.Core</x:String>
       <x:String>UiPath.Core.Activities</x:String>
-      <x:String>GlobalVariablesNamespace</x:String>
-      <x:String>GlobalConstantsNamespace</x:String>
       <x:String>System.Reflection</x:String>
       <x:String>System.Linq.Expressions</x:String>
       <x:String>System.Numerics</x:String>
@@ -136,6 +134,8 @@
       <x:String>UiPath.Mail.Activities.Enums</x:String>
       <x:String>UiPath.Mail.SMTP.Activities</x:String>
       <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -282,7 +282,7 @@
       <Variable x:TypeArguments="p:PythonObject" Name="varInvokePy" />
       <Variable x:TypeArguments="p:PythonObject" Name="pythonModule" />
       <Variable x:TypeArguments="x:Object" Name="pdfResource" />
-      <Variable x:TypeArguments="x:Boolean" Name="indiSend" />
+      <Variable x:TypeArguments="x:Boolean" Name="newIndi" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -517,20 +517,16 @@
         </Sequence>
       </If.Else>
     </If>
-    <ui:GetRobotAsset TimeoutMS="{x:Null}" AssetName="SendIndividualEmails" CacheStrategy="None" DisplayName="Get Asset" FolderPath="220701283@rajalakshmi.edu.in's workspace" sap:VirtualizedContainerService.HintSize="486,186" sap2010:WorkflowViewState.IdRef="GetRobotAsset_1">
+    <ui:GetRobotAsset TimeoutMS="{x:Null}" AssetName="SendIndividualEmails" CacheStrategy="None" DisplayName="Get Asset" FolderPath="220701283@rajalakshmi.edu.in's workspace" sap:VirtualizedContainerService.HintSize="486,186" sap2010:WorkflowViewState.IdRef="GetRobotAsset_2">
       <ui:GetRobotAsset.Value>
-        <OutArgument x:TypeArguments="x:Boolean">[indiSend]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean">[newIndi]</OutArgument>
       </ui:GetRobotAsset.Value>
     </ui:GetRobotAsset>
-    <If Condition="[indiSend]" sap:VirtualizedContainerService.HintSize="486,995" sap2010:WorkflowViewState.IdRef="If_3">
+    <If Condition="[newIndi]" sap:VirtualizedContainerService.HintSize="486,995" sap2010:WorkflowViewState.IdRef="If_3">
       <If.Then>
         <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,631" sap2010:WorkflowViewState.IdRef="Sequence_11">
           <Sequence.Variables>
-            <Variable x:TypeArguments="x:String" Name="studentEmail">
-              <Variable.Default>
-                <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varRollNumber + &quot;@rajalakshmi.edu.in&quot;" />
-              </Variable.Default>
-            </Variable>
+            <Variable x:TypeArguments="x:String" Default="[varRollNumber + &quot;@rajalakshmi.edu.in&quot;]" Name="studentEmail" />
           </Sequence.Variables>
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">

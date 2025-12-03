@@ -3,7 +3,7 @@
   "resources": [
     {
       "activityDisplayName": "Get Asset",
-      "activityId": "GetRobotAsset_1",
+      "activityId": "GetRobotAsset_2",
       "resource": "asset",
       "key": "220701283@rajalakshmi.edu.in's workspace.SendIndividualEmails",
       "id": "asset220701283@rajalakshmi.edu.in's workspace.SendIndividualEmails220701283@rajalakshmi.edu.in's workspaceFalseSendIndividualEmailsFalse",
@@ -43,7 +43,7 @@
     },
     {
       "activityDisplayName": "Get Asset",
-      "activityId": "GetRobotAsset_1",
+      "activityId": "GetRobotAsset_5",
       "resource": "asset",
       "key": "220701283@rajalakshmi.edu.in's workspace.SendBulkEmail",
       "id": "asset220701283@rajalakshmi.edu.in's workspace.SendBulkEmail220701283@rajalakshmi.edu.in's workspaceFalseSendBulkEmailFalse",
