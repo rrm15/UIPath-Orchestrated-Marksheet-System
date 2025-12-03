@@ -857,7 +857,7 @@
                                           <OutArgument x:TypeArguments="s:String[]">[emailAttachments]</OutArgument>
                                         </Assign.To>
                                         <Assign.Value>
-                                          <InArgument x:TypeArguments="s:String[]">[Directory.GetFiles(Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "Data", "Output")), "*.pdf")]</InArgument>
+                                          <InArgument x:TypeArguments="s:String[]">[Directory.GetFiles("F:/UiPath/Final Project/Data/Output", "*.pdf")]</InArgument>
                                         </Assign.Value>
                                       </Assign>
                                       <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,179" sap2010:WorkflowViewState.IdRef="LogMessage_37" Level="Info" Message="[&quot;Email Attachments Count: &quot; + emailAttachments.Length.ToString + Environment.NewLine + &quot;Files found: &quot; + String.Join(&quot;; &quot;, emailAttachments)]" />
