@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/python" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/python" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:umae="clr-namespace:UiPath.Mail.Activities.Enums;assembly=UiPath.Mail.Activities" xmlns:umame="clr-namespace:UiPath.MicrosoftOffice365.Activities.Mail.Enums;assembly=UiPath.Mail.Activities" xmlns:usau="clr-namespace:UiPath.Shared.Activities.Utils;assembly=UiPath.Mail.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="UiPathEventConnector" Type="InArgument(x:String)" />
     <x:Property Name="UiPathEvent" Type="InArgument(x:String)" />
@@ -29,7 +29,7 @@
   <sap:VirtualizedContainerService.HintSize>818.4,454.4</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="100">
+    <scg:List x:TypeArguments="x:String" Capacity="200">
       <x:String>Microsoft.VisualBasic</x:String>
       <x:String>Microsoft.VisualBasic.Activities</x:String>
       <x:String>System</x:String>
@@ -130,6 +130,12 @@
       <x:String>System.Net.NetworkInformation</x:String>
       <x:String>System.Net.Security</x:String>
       <x:String>System.Net.Sockets</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Mail.Enums</x:String>
+      <x:String>UiPath.Shared.Activities.Utils</x:String>
+      <x:String>UiPath.Mail</x:String>
+      <x:String>UiPath.Mail.Activities.Enums</x:String>
+      <x:String>UiPath.Mail.SMTP.Activities</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -241,9 +247,13 @@
       <AssemblyReference>System.Net.NetworkInformation</AssemblyReference>
       <AssemblyReference>System.Net.Ping</AssemblyReference>
       <AssemblyReference>System.Net.Sockets</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1281,3010" sap2010:WorkflowViewState.IdRef="Sequence_10">
+  <Sequence sap:VirtualizedContainerService.HintSize="1281,4200" sap2010:WorkflowViewState.IdRef="Sequence_10">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="varName" />
       <Variable x:TypeArguments="x:String" Name="varPDFPath" />
@@ -272,6 +282,7 @@
       <Variable x:TypeArguments="p:PythonObject" Name="varInvokePy" />
       <Variable x:TypeArguments="p:PythonObject" Name="pythonModule" />
       <Variable x:TypeArguments="x:Object" Name="pdfResource" />
+      <Variable x:TypeArguments="x:Boolean" Name="indiSend" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -417,39 +428,17 @@
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Processing student: &quot; &amp; varName &amp; &quot; (Roll: &quot; &amp; varRollNumber &amp; &quot;)&quot;]" />
     <ui:InvokeCode Code="Dim marks As Integer() = {varMark1, varMark2, varMark3, varMark4, varMark5}&#xA;Dim subjects As String() = {&quot;Subject 1&quot;, &quot;Subject 2&quot;, &quot;Subject 3&quot;, &quot;Subject 4&quot;, &quot;Subject 5&quot;}&#xA;&#xA;For i As Integer = 0 To marks.Length - 1&#xA;    If marks(i) &lt; 0 OrElse marks(i) &gt; 100 Then&#xA;        Throw New BusinessRuleException(&quot;Invalid marks for &quot; + subjects(i) + &quot;: &quot; + marks(i).ToString + &quot;. Marks must be between 0-100.&quot;)&#xA;    End If&#xA;Next&#xA;&#xA;If varMark1 &gt;= 90 Then&#xA;    varGrade1 = &quot;A&quot;&#xA;ElseIf varMark1 &gt;= 80 Then&#xA;    varGrade1 = &quot;B&quot;&#xA;ElseIf varMark1 &gt;= 70 Then&#xA;    varGrade1 = &quot;C&quot;&#xA;ElseIf varMark1 &gt;= 60 Then&#xA;    varGrade1 = &quot;D&quot;&#xA;ElseIf varMark1 &gt;= 50 Then&#xA;    varGrade1 = &quot;E&quot;&#xA;Else&#xA;    varGrade1 = &quot;F&quot;&#xA;End If&#xA;&#xA;If varMark2 &gt;= 90 Then&#xA;    varGrade2 = &quot;A&quot;&#xA;ElseIf varMark2 &gt;= 80 Then&#xA;    varGrade2 = &quot;B&quot;&#xA;ElseIf varMark2 &gt;= 70 Then&#xA;    varGrade2 = &quot;C&quot;&#xA;ElseIf varMark2 &gt;= 60 Then&#xA;    varGrade2 = &quot;D&quot;&#xA;ElseIf varMark2 &gt;= 50 Then&#xA;    varGrade2 = &quot;E&quot;&#xA;Else&#xA;    varGrade2 = &quot;F&quot;&#xA;End If&#xA;&#xA;If varMark3 &gt;= 90 Then&#xA;    varGrade3 = &quot;A&quot;&#xA;ElseIf varMark3 &gt;= 80 Then&#xA;    varGrade3 = &quot;B&quot;&#xA;ElseIf varMark3 &gt;= 70 Then&#xA;    varGrade3 = &quot;C&quot;&#xA;ElseIf varMark3 &gt;= 60 Then&#xA;    varGrade3 = &quot;D&quot;&#xA;ElseIf varMark3 &gt;= 50 Then&#xA;    varGrade3 = &quot;E&quot;&#xA;Else&#xA;    varGrade3 = &quot;F&quot;&#xA;End If&#xA;&#xA;If varMark4 &gt;= 90 Then&#xA;    varGrade4 = &quot;A&quot;&#xA;ElseIf varMark4 &gt;= 80 Then&#xA;    varGrade4 = &quot;B&quot;&#xA;ElseIf varMark4 &gt;= 70 Then&#xA;    varGrade4 = &quot;C&quot;&#xA;ElseIf varMark4 &gt;= 60 Then&#xA;    varGrade4 = &quot;D&quot;&#xA;ElseIf varMark4 &gt;= 50 Then&#xA;    varGrade4 = &quot;E&quot;&#xA;Else&#xA;    varGrade4 = &quot;F&quot;&#xA;End If&#xA;&#xA;If varMark5 &gt;= 90 Then&#xA;    varGrade5 = &quot;A&quot;&#xA;ElseIf varMark5 &gt;= 80 Then&#xA;    varGrade5 = &quot;B&quot;&#xA;ElseIf varMark5 &gt;= 70 Then&#xA;    varGrade5 = &quot;C&quot;&#xA;ElseIf varMark5 &gt;= 60 Then&#xA;    varGrade5 = &quot;D&quot;&#xA;ElseIf varMark5 &gt;= 50 Then&#xA;    varGrade5 = &quot;E&quot;&#xA;Else&#xA;    varGrade5 = &quot;F&quot;&#xA;End If&#xA;&#xA;Dim gp1 As Double = 0&#xA;If varGrade1 = &quot;A&quot; Then gp1 = 10.0&#xA;If varGrade1 = &quot;B&quot; Then gp1 = 8.0&#xA;If varGrade1 = &quot;C&quot; Then gp1 = 6.0&#xA;If varGrade1 = &quot;D&quot; Then gp1 = 4.0&#xA;If varGrade1 = &quot;E&quot; Then gp1 = 2.0&#xA;&#xA;Dim gp2 As Double = 0&#xA;If varGrade2 = &quot;A&quot; Then gp2 = 10.0&#xA;If varGrade2 = &quot;B&quot; Then gp2 = 8.0&#xA;If varGrade2 = &quot;C&quot; Then gp2 = 6.0&#xA;If varGrade2 = &quot;D&quot; Then gp2 = 4.0&#xA;If varGrade2 = &quot;E&quot; Then gp2 = 2.0&#xA;&#xA;Dim gp3 As Double = 0&#xA;If varGrade3 = &quot;A&quot; Then gp3 = 10.0&#xA;If varGrade3 = &quot;B&quot; Then gp3 = 8.0&#xA;If varGrade3 = &quot;C&quot; Then gp3 = 6.0&#xA;If varGrade3 = &quot;D&quot; Then gp3 = 4.0&#xA;If varGrade3 = &quot;E&quot; Then gp3 = 2.0&#xA;&#xA;Dim gp4 As Double = 0&#xA;If varGrade4 = &quot;A&quot; Then gp4 = 10.0&#xA;If varGrade4 = &quot;B&quot; Then gp4 = 8.0&#xA;If varGrade4 = &quot;C&quot; Then gp4 = 6.0&#xA;If varGrade4 = &quot;D&quot; Then gp4 = 4.0&#xA;If varGrade4 = &quot;E&quot; Then gp4 = 2.0&#xA;&#xA;Dim gp5 As Double = 0&#xA;If varGrade5 = &quot;A&quot; Then gp5 = 10.0&#xA;If varGrade5 = &quot;B&quot; Then gp5 = 8.0&#xA;If varGrade5 = &quot;C&quot; Then gp5 = 6.0&#xA;If varGrade5 = &quot;D&quot; Then gp5 = 4.0&#xA;If varGrade5 = &quot;E&quot; Then gp5 = 2.0&#xA;&#xA;varGPA = Math.Round((gp1 + gp2 + gp3 + gp4 + gp5) / 5, 2)" ContinueOnError="False" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="486,197" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
       <ui:InvokeCode.Arguments>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark1">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark1" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark2">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark2" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark3">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark3" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark4">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark4" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark5">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark5" />
-        </InArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="varGrade1">
-          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade1" />
-        </OutArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="varGrade2">
-          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade2" />
-        </OutArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="varGrade3">
-          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade3" />
-        </OutArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="varGrade4">
-          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade4" />
-        </OutArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="varGrade5">
-          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="varGrade5" />
-        </OutArgument>
-        <OutArgument x:TypeArguments="x:Double" x:Key="varGPA">
-          <VisualBasicReference x:TypeArguments="x:Double" ExpressionText="varGPA" />
-        </OutArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark1">[varMark1]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark2">[varMark2]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark3">[varMark3]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark4">[varMark4]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark5">[varMark5]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade1">[varGrade1]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade2">[varGrade2]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade3">[varGrade3]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade4">[varGrade4]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="varGrade5">[varGrade5]</OutArgument>
+        <OutArgument x:TypeArguments="x:Double" x:Key="varGPA">[varGPA]</OutArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Grades: &quot; &amp; varGrade1 &amp; &quot;,&quot; &amp; varGrade2 &amp; &quot;,&quot; &amp; varGrade3 &amp; &quot;,&quot; &amp; varGrade4 &amp; &quot;,&quot; &amp; varGrade5 &amp; &quot; | GPA: &quot; &amp; varGPA.ToString()]" />
@@ -462,85 +451,37 @@
       </Assign.Value>
     </Assign>
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="486,175" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;Python command: python Scripts\generate_marksheet.py &quot; + varName + &quot; &quot; + varRollNumber + &quot; ...&quot;]" />
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim psi As New System.Diagnostics.ProcessStartInfo()&#xD;&#xA;psi.FileName = &quot;python&quot;&#xD;&#xA;psi.Arguments = String.Format(&quot;Scripts\generate_marksheet.py &quot;&quot;{0}&quot;&quot; &quot;&quot;{1}&quot;&quot; &quot;&quot;{2}&quot;&quot; &quot;&quot;{3}&quot;&quot; &quot;&quot;{4}&quot;&quot; &quot;&quot;{5}&quot;&quot; &quot;&quot;{6}&quot;&quot; {7} &quot;&quot;{8}&quot;&quot; &quot;&quot;{9}&quot;&quot; {10} &quot;&quot;{11}&quot;&quot; &quot;&quot;{12}&quot;&quot; {13} &quot;&quot;{14}&quot;&quot; &quot;&quot;{15}&quot;&quot; {16} &quot;&quot;{17}&quot;&quot; &quot;&quot;{18}&quot;&quot; {19} &quot;&quot;{20}&quot;&quot; {21} &quot;&quot;{22}&quot;&quot; &quot;&quot;{23}&quot;&quot;&quot;, varName, varRollNumber, varDOB, varSemester, varYear, varDepartment, varSubject1, varMark1, varGrade1, varSubject2, varMark2, varGrade2, varSubject3, varMark3, varGrade3, varSubject4, varMark4, varGrade4, varSubject5, varMark5, varGrade5, varGPA, institutionName, varPDFPath)&#xD;&#xA;psi.UseShellExecute = False&#xD;&#xA;psi.CreateNoWindow = True&#xD;&#xA;psi.WorkingDirectory = Environment.CurrentDirectory&#xD;&#xA;&#xD;&#xA;Dim proc As System.Diagnostics.Process = System.Diagnostics.Process.Start(psi)&#xD;&#xA;proc.WaitForExit()" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="486,197" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim psi As New System.Diagnostics.ProcessStartInfo()&#xA;psi.FileName = &quot;python&quot;&#xA;psi.Arguments = String.Format(&quot;Scripts\generate_marksheet.py &quot;&quot;{0}&quot;&quot; &quot;&quot;{1}&quot;&quot; &quot;&quot;{2}&quot;&quot; &quot;&quot;{3}&quot;&quot; &quot;&quot;{4}&quot;&quot; &quot;&quot;{5}&quot;&quot; &quot;&quot;{6}&quot;&quot; {7} &quot;&quot;{8}&quot;&quot; &quot;&quot;{9}&quot;&quot; {10} &quot;&quot;{11}&quot;&quot; &quot;&quot;{12}&quot;&quot; {13} &quot;&quot;{14}&quot;&quot; &quot;&quot;{15}&quot;&quot; {16} &quot;&quot;{17}&quot;&quot; &quot;&quot;{18}&quot;&quot; {19} &quot;&quot;{20}&quot;&quot; {21} &quot;&quot;{22}&quot;&quot; &quot;&quot;{23}&quot;&quot;&quot;, varName, varRollNumber, varDOB, varSemester, varYear, varDepartment, varSubject1, varMark1, varGrade1, varSubject2, varMark2, varGrade2, varSubject3, varMark3, varGrade3, varSubject4, varMark4, varGrade4, varSubject5, varMark5, varGrade5, varGPA, institutionName, varPDFPath)&#xA;psi.UseShellExecute = False&#xA;psi.CreateNoWindow = True&#xA;psi.WorkingDirectory = Environment.CurrentDirectory&#xA;&#xA;Dim proc As System.Diagnostics.Process = System.Diagnostics.Process.Start(psi)&#xA;proc.WaitForExit()" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="486,197" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
       <ui:InvokeCode.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="institutionName">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;InstitutionName&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varPDFPath">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varPDFPath" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Double" x:Key="varGPA">
-          <VisualBasicValue x:TypeArguments="x:Double" ExpressionText="varGPA" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varGrade5">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade5" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varGrade4">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade4" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varGrade3">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade3" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varGrade2">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade2" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varGrade1">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varGrade1" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark5">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark5" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark4">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark4" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark3">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark3" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark2">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark2" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:Int32" x:Key="varMark1">
-          <VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="varMark1" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varSubject5">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject5" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varSubject4">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject4" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varSubject3">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject3" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varSubject2">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject2" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varSubject1">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSubject1" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varDepartment">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varDepartment" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varYear">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varYear" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varSemester">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varSemester" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varDOB">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varDOB" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varRollNumber">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varRollNumber" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="varName">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varName" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="institutionName">[in_Config("InstitutionName").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varPDFPath">[varPDFPath]</InArgument>
+        <InArgument x:TypeArguments="x:Double" x:Key="varGPA">[varGPA]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade5">[varGrade5]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade4">[varGrade4]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade3">[varGrade3]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade2">[varGrade2]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varGrade1">[varGrade1]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark5">[varMark5]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark4">[varMark4]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark3">[varMark3]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark2">[varMark2]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="varMark1">[varMark1]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject5">[varSubject5]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject4">[varSubject4]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject3">[varSubject3]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject2">[varSubject2]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSubject1">[varSubject1]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varDepartment">[varDepartment]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varYear">[varYear]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varSemester">[varSemester]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varDOB">[varDOB]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varRollNumber">[varRollNumber]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="varName">[varName]</InArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="486,123" sap2010:WorkflowViewState.IdRef="Delay_1" />
     <ui:PathExists DisplayName="Get Local File or Folder" Exists="[pdfExists]" sap:VirtualizedContainerService.HintSize="486,174" sap2010:WorkflowViewState.IdRef="PathExists_2" Path="[varPDFPath]" PathType="File" Resource="[pdfResource]" />
-    <If Condition="[pdfExists]" DisplayName="If" sap:VirtualizedContainerService.HintSize="486,728" sap2010:WorkflowViewState.IdRef="If_2">
+    <If Condition="[pdfExists]" DisplayName="If" sap:VirtualizedContainerService.HintSize="486,737" sap2010:WorkflowViewState.IdRef="If_2">
       <If.Then>
         <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="484,325" sap2010:WorkflowViewState.IdRef="Sequence_7">
           <sap:WorkflowViewStateService.ViewState>
@@ -573,6 +514,68 @@
             </sap:WorkflowViewStateService.ViewState>
             <Throw DisplayName="Throw" Exception="[New UiPath.Core.BusinessRuleException(&quot;PDF generation failed for &quot; &amp; varRollNumber)]" sap:VirtualizedContainerService.HintSize="416,118" sap2010:WorkflowViewState.IdRef="Throw_2" />
           </Sequence>
+        </Sequence>
+      </If.Else>
+    </If>
+    <ui:GetRobotAsset TimeoutMS="{x:Null}" AssetName="SendIndividualEmails" CacheStrategy="None" DisplayName="Get Asset" FolderPath="220701283@rajalakshmi.edu.in's workspace" sap:VirtualizedContainerService.HintSize="486,186" sap2010:WorkflowViewState.IdRef="GetRobotAsset_1">
+      <ui:GetRobotAsset.Value>
+        <OutArgument x:TypeArguments="x:Boolean">[indiSend]</OutArgument>
+      </ui:GetRobotAsset.Value>
+    </ui:GetRobotAsset>
+    <If Condition="[indiSend]" sap:VirtualizedContainerService.HintSize="486,995" sap2010:WorkflowViewState.IdRef="If_3">
+      <If.Then>
+        <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,631" sap2010:WorkflowViewState.IdRef="Sequence_11">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="x:String" Name="studentEmail">
+              <Variable.Default>
+                <VisualBasicValue x:TypeArguments="x:String" ExpressionText="varRollNumber + &quot;@rajalakshmi.edu.in&quot;" />
+              </Variable.Default>
+            </Variable>
+          </Sequence.Variables>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign sap:VirtualizedContainerService.HintSize="416,179" sap2010:WorkflowViewState.IdRef="Assign_3">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[studentEmail]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[varRollNumber + "@rajalakshmi.edu.in"]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" ContinueOnError="{x:Null}" Email="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" Password="{x:Null}" Port="{x:Null}" ReplyTo="{x:Null}" ResourceAttachmentList="{x:Null}" ResourceAttachments="{x:Null}" Result="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" AttachmentInputMode="FilePaths" AttachmentsCollection="[New String() {varPDFPath}]" Body="[&quot;Dear &quot; + varName + &quot;,&quot; + Environment.NewLine + Environment.NewLine + &quot;Your marksheet for Fall 2024 semester has been generated.&quot; + Environment.NewLine + Environment.NewLine + &quot;STUDENT DETAILS:&quot; + Environment.NewLine + &quot;  Name:        &quot; + varName + Environment.NewLine + &quot;  Roll Number: &quot; + varRollNumber + Environment.NewLine + &quot;  Department:  &quot; + varDepartment + Environment.NewLine + &quot;  Semester:    &quot; + varSemester + Environment.NewLine + &quot;  Year:        &quot; + varYear + Environment.NewLine + Environment.NewLine + &quot;ACADEMIC PERFORMANCE:&quot; + Environment.NewLine + &quot;  Overall GPA: &quot; + varGPA.ToString(&quot;F2&quot;) + &quot;/10.00&quot; + Environment.NewLine + Environment.NewLine + &quot;SUBJECT-WISE GRADES:&quot; + Environment.NewLine + &quot;  1. &quot; + varSubject1 + &quot;: &quot; + varMark1.ToString + &quot;/100 - Grade &quot; + varGrade1 + Environment.NewLine + &quot;  2. &quot; + varSubject2 + &quot;: &quot; + varMark2.ToString + &quot;/100 - Grade &quot; + varGrade2 + Environment.NewLine + &quot;  3. &quot; + varSubject3 + &quot;: &quot; + varMark3.ToString + &quot;/100 - Grade &quot; + varGrade3 + Environment.NewLine + &quot;  4. &quot; + varSubject4 + &quot;: &quot; + varMark4.ToString + &quot;/100 - Grade &quot; + varGrade4 + Environment.NewLine + &quot;  5. &quot; + varSubject5 + &quot;: &quot; + varMark5.ToString + &quot;/100 - Grade &quot; + varGrade5 + Environment.NewLine + Environment.NewLine + &quot;Your detailed marksheet is attached to this email as a PDF document.&quot; + Environment.NewLine + &quot;Please keep this for your records.&quot; + Environment.NewLine + Environment.NewLine + &quot;Best regards,&quot; + Environment.NewLine + &quot;Office of Academic Affairs&quot; + Environment.NewLine + &quot;Rajalakshmi Engineering College&quot; + Environment.NewLine + Environment.NewLine + &quot;---&quot; + Environment.NewLine + &quot;This is an automated email. Please do not reply.&quot;]" ConnectionId="c647c06f-3937-4d6e-ad01-b0176991445d" ConnectionMode="IntegrationService" DisplayName="Send SMTP Email" EnableSSL="True" sap:VirtualizedContainerService.HintSize="416,388" sap2010:WorkflowViewState.IdRef="SendMail_1" IgnoreCRL="False" IsBodyHtml="False" SecureConnection="Auto" Subject="[&quot;Your Marksheet - Fall 2024 | &quot; + varRollNumber]" To="[studentEmail]" UseISConnection="True" UseRichTextEditor="True">
+            <ui:SendMail.AttachmentsBackup>
+              <usau:BackupSlot x:TypeArguments="umame:AttachmentInputMode" StoredValue="FilePaths">
+                <usau:BackupSlot.BackupValues>
+                  <scg:List x:TypeArguments="x:Object" x:Key="Existing" Capacity="1">
+                    <x:Null />
+                  </scg:List>
+                </usau:BackupSlot.BackupValues>
+              </usau:BackupSlot>
+            </ui:SendMail.AttachmentsBackup>
+            <ui:SendMail.ConnectionDetailsBackupSlot>
+              <usau:BackupSlot x:TypeArguments="umae:ConnectionDetails" StoredValue="IntegrationService">
+                <usau:BackupSlot.BackupValues>
+                  <scg:Dictionary x:TypeArguments="umae:ConnectionDetails, scg:List(x:Object)" />
+                </usau:BackupSlot.BackupValues>
+              </usau:BackupSlot>
+            </ui:SendMail.ConnectionDetailsBackupSlot>
+            <ui:SendMail.Files>
+              <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+            </ui:SendMail.Files>
+          </ui:SendMail>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,234" sap2010:WorkflowViewState.IdRef="Sequence_12">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,170" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;Individual Email Skipped as per Configuration&quot;]" />
         </Sequence>
       </If.Else>
     </If>

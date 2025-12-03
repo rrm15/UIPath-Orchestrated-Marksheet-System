@@ -2,8 +2,28 @@
   "version": "2.0",
   "resources": [
     {
+      "activityDisplayName": "Get Asset",
+      "activityId": "GetRobotAsset_1",
+      "resource": "asset",
+      "key": "220701283@rajalakshmi.edu.in's workspace.SendIndividualEmails",
+      "id": "asset220701283@rajalakshmi.edu.in's workspace.SendIndividualEmails220701283@rajalakshmi.edu.in's workspaceFalseSendIndividualEmailsFalse",
+      "value": {
+        "folderPath": {
+          "defaultValue": "220701283@rajalakshmi.edu.in's workspace",
+          "isExpression": false
+        },
+        "name": {
+          "defaultValue": "SendIndividualEmails",
+          "isExpression": false
+        }
+      },
+      "metadata": {
+        "BindingsVersion": "2.2"
+      }
+    },
+    {
       "activityDisplayName": "Send SMTP Email",
-      "activityId": "SendMail_2",
+      "activityId": "SendMail_1",
       "resource": "Connection",
       "key": "c647c06f-3937-4d6e-ad01-b0176991445d",
       "id": "Connectionc647c06f-3937-4d6e-ad01-b0176991445dc647c06f-3937-4d6e-ad01-b0176991445dFalse",
@@ -19,6 +39,26 @@
         "BindingsVersion": "2.1",
         "UseConnectionService": "True",
         "Connector": "uipath-mail-mail"
+      }
+    },
+    {
+      "activityDisplayName": "Get Asset",
+      "activityId": "GetRobotAsset_1",
+      "resource": "asset",
+      "key": "220701283@rajalakshmi.edu.in's workspace.SendBulkEmail",
+      "id": "asset220701283@rajalakshmi.edu.in's workspace.SendBulkEmail220701283@rajalakshmi.edu.in's workspaceFalseSendBulkEmailFalse",
+      "value": {
+        "folderPath": {
+          "defaultValue": "220701283@rajalakshmi.edu.in's workspace",
+          "isExpression": false
+        },
+        "name": {
+          "defaultValue": "SendBulkEmail",
+          "isExpression": false
+        }
+      },
+      "metadata": {
+        "BindingsVersion": "2.2"
       }
     }
   ]

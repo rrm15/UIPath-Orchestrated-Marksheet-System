@@ -834,9 +834,9 @@
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
                           <Transition.To>
-                            <State x:Name="__ReferenceID1" sap2010:Annotation.AnnotationText="End process and close all applications used." DisplayName="End Process" sap:VirtualizedContainerService.HintSize="498,1556" sap2010:WorkflowViewState.IdRef="State_1" IsFinal="True">
+                            <State x:Name="__ReferenceID1" sap2010:Annotation.AnnotationText="End process and close all applications used." DisplayName="End Process" sap:VirtualizedContainerService.HintSize="534,2170" sap2010:WorkflowViewState.IdRef="State_1" IsFinal="True">
                               <State.Entry>
-                                <TryCatch DisplayName="Try to close all aplications" sap:VirtualizedContainerService.HintSize="452,1410" sap2010:WorkflowViewState.IdRef="TryCatch_13">
+                                <TryCatch DisplayName="Try to close all aplications" sap:VirtualizedContainerService.HintSize="488,2024" sap2010:WorkflowViewState.IdRef="TryCatch_13">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -844,14 +844,17 @@
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
                                   <TryCatch.Try>
-                                    <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="450,1123" sap2010:WorkflowViewState.IdRef="Sequence_40">
+                                    <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="486,1737" sap2010:WorkflowViewState.IdRef="Sequence_40">
+                                      <Sequence.Variables>
+                                        <Variable x:TypeArguments="x:Boolean" Name="bulkSend" />
+                                      </Sequence.Variables>
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                         </scg:Dictionary>
                                       </sap:WorkflowViewStateService.ViewState>
-                                      <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="416,127" sap2010:WorkflowViewState.IdRef="Delay_1" />
-                                      <Assign sap:VirtualizedContainerService.HintSize="416,179" sap2010:WorkflowViewState.IdRef="Assign_29">
+                                      <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="452,127" sap2010:WorkflowViewState.IdRef="Delay_1" />
+                                      <Assign sap:VirtualizedContainerService.HintSize="452,179" sap2010:WorkflowViewState.IdRef="Assign_29">
                                         <Assign.To>
                                           <OutArgument x:TypeArguments="s:String[]">[emailAttachments]</OutArgument>
                                         </Assign.To>
@@ -859,29 +862,55 @@
                                           <InArgument x:TypeArguments="s:String[]">[Directory.GetFiles("F:/UiPath/Final Project/Data/Output", "*.pdf")]</InArgument>
                                         </Assign.Value>
                                       </Assign>
-                                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,179" sap2010:WorkflowViewState.IdRef="LogMessage_37" Level="Info" Message="[&quot;Email Attachments Count: &quot; + emailAttachments.Length.ToString + Environment.NewLine + &quot;Files found: &quot; + String.Join(&quot;; &quot;, emailAttachments)]" />
-                                      <ui:SendMail Bcc="{x:Null}" ContinueOnError="{x:Null}" Email="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" Password="{x:Null}" Port="{x:Null}" ReplyTo="{x:Null}" ResourceAttachmentList="{x:Null}" ResourceAttachments="{x:Null}" Result="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" AttachmentInputMode="FilePaths" AttachmentsCollection="[emailAttachments]" Body="[&quot;MARKSHEET GENERATION COMPLETE&quot; + Environment.NewLine + Environment.NewLine + &quot;Dear Administrator,&quot; + Environment.NewLine + Environment.NewLine + &quot;The automated marksheet generation process has completed successfully.&quot; + Environment.NewLine + &quot;All &quot; + emailAttachments.Length.ToString + &quot; student marksheets have been processed and attached.&quot; + Environment.NewLine + Environment.NewLine + &quot;GENERATION SUMMARY:&quot; + Environment.NewLine + &quot;  - Department: Computer Science&quot; + Environment.NewLine + &quot;  - Semester: Fall 2024&quot; + Environment.NewLine + &quot;  - Date: &quot; + DateTime.Now.ToString(&quot;dd-MMM-yyyy HH:mm&quot;) + Environment.NewLine + &quot;  - Students Processed: &quot; + emailAttachments.Length.ToString + Environment.NewLine + &quot;  - Subjects per Student: 5&quot; + Environment.NewLine + &quot;  - Success Rate: 100%&quot; + Environment.NewLine + Environment.NewLine + &quot;ATTACHMENTS:&quot; + Environment.NewLine + &quot;  All marksheets are attached as PDF files.&quot; + Environment.NewLine + &quot;  Naming: Marksheet_[RollNumber]_[Timestamp].pdf&quot; + Environment.NewLine + Environment.NewLine + &quot;NEXT STEPS:&quot; + Environment.NewLine + &quot;  1. Review attached marksheets for accuracy&quot; + Environment.NewLine + &quot;  2. Distribute to respective students&quot; + Environment.NewLine + &quot;  3. Archive for record-keeping&quot; + Environment.NewLine + Environment.NewLine + &quot;This is an automated notification from UiPath REFramework.&quot; + Environment.NewLine + &quot;Process ID: &quot; + DateTime.Now.ToString(&quot;yyyyMMddHHmmss&quot;) + Environment.NewLine + Environment.NewLine + &quot;Rajalakshmi Engineering College | Office of Academic Affairs&quot;]" Cc="220701283@rajalakshmi.edu.in" ConnectionId="c647c06f-3937-4d6e-ad01-b0176991445d" ConnectionMode="IntegrationService" DisplayName="Send SMTP Email" EnableSSL="True" sap:VirtualizedContainerService.HintSize="416,397" sap2010:WorkflowViewState.IdRef="SendMail_2" IgnoreCRL="False" IsBodyHtml="False" SecureConnection="Auto" Subject="Your marksheets are here!" To="thegodsomesh@gmail.com" UseISConnection="True" UseRichTextEditor="True">
-                                        <ui:SendMail.AttachmentsBackup>
-                                          <usau:BackupSlot x:TypeArguments="umame:AttachmentInputMode" StoredValue="FilePaths">
-                                            <usau:BackupSlot.BackupValues>
-                                              <scg:List x:TypeArguments="x:Object" x:Key="Existing" Capacity="1">
-                                                <x:Null />
-                                              </scg:List>
-                                            </usau:BackupSlot.BackupValues>
-                                          </usau:BackupSlot>
-                                        </ui:SendMail.AttachmentsBackup>
-                                        <ui:SendMail.ConnectionDetailsBackupSlot>
-                                          <usau:BackupSlot x:TypeArguments="umae:ConnectionDetails" StoredValue="IntegrationService">
-                                            <usau:BackupSlot.BackupValues>
-                                              <scg:Dictionary x:TypeArguments="umae:ConnectionDetails, scg:List(x:Object)" />
-                                            </usau:BackupSlot.BackupValues>
-                                          </usau:BackupSlot>
-                                        </ui:SendMail.ConnectionDetailsBackupSlot>
-                                        <ui:SendMail.Files>
-                                          <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
-                                        </ui:SendMail.Files>
-                                      </ui:SendMail>
-                                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke CloseAllApplications workflow" sap:VirtualizedContainerService.HintSize="416,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="Framework\CloseAllApplications.xaml">
+                                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="452,179" sap2010:WorkflowViewState.IdRef="LogMessage_37" Level="Info" Message="[&quot;Email Attachments Count: &quot; + emailAttachments.Length.ToString + Environment.NewLine + &quot;Files found: &quot; + String.Join(&quot;; &quot;, emailAttachments)]" />
+                                      <ui:GetRobotAsset TimeoutMS="{x:Null}" AssetName="SendBulkEmail" CacheStrategy="None" DisplayName="Get Asset" FolderPath="220701283@rajalakshmi.edu.in's workspace" sap:VirtualizedContainerService.HintSize="452,190" sap2010:WorkflowViewState.IdRef="GetRobotAsset_1">
+                                        <ui:GetRobotAsset.Value>
+                                          <OutArgument x:TypeArguments="x:Boolean">[bulkSend]</OutArgument>
+                                        </ui:GetRobotAsset.Value>
+                                      </ui:GetRobotAsset>
+                                      <If Condition="[bulkSend]" sap:VirtualizedContainerService.HintSize="452,821" sap2010:WorkflowViewState.IdRef="If_15">
+                                        <If.Then>
+                                          <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,448" sap2010:WorkflowViewState.IdRef="Sequence_58">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:SendMail Bcc="{x:Null}" ContinueOnError="{x:Null}" Email="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" Password="{x:Null}" Port="{x:Null}" ReplyTo="{x:Null}" ResourceAttachmentList="{x:Null}" ResourceAttachments="{x:Null}" Result="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" AttachmentInputMode="FilePaths" AttachmentsCollection="[emailAttachments]" Body="[&quot;MARKSHEET GENERATION COMPLETE&quot; + Environment.NewLine + Environment.NewLine + &quot;Dear Administrator,&quot; + Environment.NewLine + Environment.NewLine + &quot;The automated marksheet generation process has completed successfully.&quot; + Environment.NewLine + &quot;All &quot; + emailAttachments.Length.ToString + &quot; student marksheets have been processed and attached.&quot; + Environment.NewLine + Environment.NewLine + &quot;GENERATION SUMMARY:&quot; + Environment.NewLine + &quot;  - Department: Computer Science&quot; + Environment.NewLine + &quot;  - Semester: Fall 2024&quot; + Environment.NewLine + &quot;  - Date: &quot; + DateTime.Now.ToString(&quot;dd-MMM-yyyy HH:mm&quot;) + Environment.NewLine + &quot;  - Students Processed: &quot; + emailAttachments.Length.ToString + Environment.NewLine + &quot;  - Subjects per Student: 5&quot; + Environment.NewLine + &quot;  - Success Rate: 100%&quot; + Environment.NewLine + Environment.NewLine + &quot;ATTACHMENTS:&quot; + Environment.NewLine + &quot;  All marksheets are attached as PDF files.&quot; + Environment.NewLine + &quot;  Naming: Marksheet_[RollNumber]_[Timestamp].pdf&quot; + Environment.NewLine + Environment.NewLine + &quot;NEXT STEPS:&quot; + Environment.NewLine + &quot;  1. Review attached marksheets for accuracy&quot; + Environment.NewLine + &quot;  2. Distribute to respective students&quot; + Environment.NewLine + &quot;  3. Archive for record-keeping&quot; + Environment.NewLine + Environment.NewLine + &quot;This is an automated notification from UiPath REFramework.&quot; + Environment.NewLine + &quot;Process ID: &quot; + DateTime.Now.ToString(&quot;yyyyMMddHHmmss&quot;) + Environment.NewLine + Environment.NewLine + &quot;Rajalakshmi Engineering College | Office of Academic Affairs&quot;]" Cc="220701283@rajalakshmi.edu.in" ConnectionId="c647c06f-3937-4d6e-ad01-b0176991445d" ConnectionMode="IntegrationService" DisplayName="Send SMTP Email" EnableSSL="True" sap:VirtualizedContainerService.HintSize="416,388" sap2010:WorkflowViewState.IdRef="SendMail_2" IgnoreCRL="False" IsBodyHtml="False" SecureConnection="Auto" Subject="Your marksheets are here!" To="thegodsomesh@gmail.com" UseISConnection="True" UseRichTextEditor="True">
+                                              <ui:SendMail.AttachmentsBackup>
+                                                <usau:BackupSlot x:TypeArguments="umame:AttachmentInputMode" StoredValue="FilePaths">
+                                                  <usau:BackupSlot.BackupValues>
+                                                    <scg:List x:TypeArguments="x:Object" x:Key="Existing" Capacity="1">
+                                                      <x:Null />
+                                                    </scg:List>
+                                                  </usau:BackupSlot.BackupValues>
+                                                </usau:BackupSlot>
+                                              </ui:SendMail.AttachmentsBackup>
+                                              <ui:SendMail.ConnectionDetailsBackupSlot>
+                                                <usau:BackupSlot x:TypeArguments="umae:ConnectionDetails" StoredValue="IntegrationService">
+                                                  <usau:BackupSlot.BackupValues>
+                                                    <scg:Dictionary x:TypeArguments="umae:ConnectionDetails, scg:List(x:Object)" />
+                                                  </usau:BackupSlot.BackupValues>
+                                                </usau:BackupSlot>
+                                              </ui:SendMail.ConnectionDetailsBackupSlot>
+                                              <ui:SendMail.Files>
+                                                <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+                                              </ui:SendMail.Files>
+                                            </ui:SendMail>
+                                          </Sequence>
+                                        </If.Then>
+                                        <If.Else>
+                                          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,234" sap2010:WorkflowViewState.IdRef="Sequence_59">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,170" sap2010:WorkflowViewState.IdRef="LogMessage_39" Level="Info" Message="[&quot;Bulk Email Skipped as per Configuration&quot;]" />
+                                          </Sequence>
+                                        </If.Else>
+                                      </If>
+                                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke CloseAllApplications workflow" sap:VirtualizedContainerService.HintSize="452,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="Framework\CloseAllApplications.xaml">
                                         <ui:InvokeWorkflowFile.Arguments>
                                           <scg:Dictionary x:TypeArguments="x:String, Argument" />
                                         </ui:InvokeWorkflowFile.Arguments>
@@ -906,7 +935,7 @@
                                         <ActivityAction.Argument>
                                           <DelegateInArgument x:TypeArguments="s:Exception" Name="Exception" />
                                         </ActivityAction.Argument>
-                                        <Sequence DisplayName="Failed to close applications, so kill processes" sap:VirtualizedContainerService.HintSize="450,25" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                                        <Sequence DisplayName="Failed to close applications, so kill processes" sap:VirtualizedContainerService.HintSize="486,25" sap2010:WorkflowViewState.IdRef="Sequence_26">
                                           <sap:WorkflowViewStateService.ViewState>
                                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                               <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -924,13 +953,13 @@
                                     </Catch>
                                   </TryCatch.Catches>
                                   <TryCatch.Finally>
-                                    <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,116" sap2010:WorkflowViewState.IdRef="Sequence_42">
+                                    <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="486,116" sap2010:WorkflowViewState.IdRef="Sequence_42">
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                         </scg:Dictionary>
                                       </sap:WorkflowViewStateService.ViewState>
-                                      <If Condition="[SystemException IsNot Nothing AndAlso (Config Is Nothing OrElse Convert.ToBoolean(Config(&quot;ShouldMarkJobAsFaulted&quot;)))]" DisplayName="If SystemException IsNot Nothing" sap:VirtualizedContainerService.HintSize="416,52" sap2010:WorkflowViewState.IdRef="If_14">
+                                      <If Condition="[SystemException IsNot Nothing AndAlso (Config Is Nothing OrElse Convert.ToBoolean(Config(&quot;ShouldMarkJobAsFaulted&quot;)))]" DisplayName="If SystemException IsNot Nothing" sap:VirtualizedContainerService.HintSize="452,52" sap2010:WorkflowViewState.IdRef="If_14">
                                         <sap:WorkflowViewStateService.ViewState>
                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
