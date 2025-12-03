@@ -15,7 +15,7 @@
   "entitiesStores": [],
   "schemaVersion": "4.0",
   "studioVersion": "26.0.181.0",
-  "projectVersion": "1.0.5",
+  "projectVersion": "1.0.7",
   "runtimeOptions": {
     "autoDispose": false,
     "netFrameworkLazyLoading": false,
@@ -100,12 +100,6 @@
     {
       "filePath": "Framework\\Process.xaml",
       "uniqueId": "d5ac4164-977f-4d9e-a0bc-f81d800a3f93",
-      "input": [],
-      "output": []
-    },
-    {
-      "filePath": "AddTestQueueItem.xaml",
-      "uniqueId": "c7fa0adf-c7dc-4153-b08d-2e87af12ac44",
       "input": [],
       "output": []
     }

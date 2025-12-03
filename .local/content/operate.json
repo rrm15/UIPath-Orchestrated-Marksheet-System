@@ -2,7 +2,7 @@
   "$schema": "https://cloud.uipath.com/draft/2024-12/operate",
   "contentType": "Process",
   "projectId": "6e46ea86-68ab-4dde-9084-a28cb151da9d",
-  "main": "AddTestQueueItem.xaml",
+  "main": "Main.xaml",
   "dependencies": {
     "UiPath.Excel.Activities": "[3.3.1]",
     "UiPath.Mail.Activities": "[2.5.10]",
