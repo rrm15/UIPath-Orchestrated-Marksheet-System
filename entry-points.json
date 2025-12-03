@@ -4,16 +4,7 @@
     {
       "filePath": "AddTestQueueItem.xaml",
       "uniqueId": "c7fa0adf-c7dc-4153-b08d-2e87af12ac44",
-      "type": "process",
-      "input": {
-        "type": "object",
-        "properties": {
-          "in_QueueName": {
-            "type": "string"
-          }
-        },
-        "required": []
-      }
+      "type": "process"
     },
     {
       "filePath": "Framework\\Process.xaml",
