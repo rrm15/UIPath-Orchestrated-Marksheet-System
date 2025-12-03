@@ -32,24 +32,24 @@ This project implements a **Dispatcher-Performer** architecture using **UiPath R
          ↑                                          ↓
          │                                          │
     DISPATCHER                                 PERFORMER
-┌─────────────────┐                      ┌──────────────────┐
-│ Read CSV File   │                      │  REFramework     │
-│ Parse Student   │                      │  Main.xaml       │
-│ Data            │                      │                  │
-│ Populate Queue  │                      │  ├── Initialize  │
-│ (10 students)   │                      │  ├── Get Trans.  │
-└─────────────────┘                      │  ├── Process     │
-                                         │  │   ├── Validate│
+┌─────────────────┐                      ┌────────────────── ┐
+│ Read CSV File   │                      │  REFramework      │
+│ Parse Student   │                      │  Main.xaml        │
+│ Data            │                      │                   │
+│ Populate Queue  │                      │  ├── Initialize   │
+|                 │                      │  ├── Get Trans.   │
+└─────────────────┘                      │  ├── Process      │
+                                         │  │   ├── Validate │
                                          │  │   ├── Calculate│
-                                         │  │   ├── Generate│
-                                         │  │   └── Verify  │
-                                         │  └── End Process │
-                                         │      └── Email   │
-                                         └──────────────────┘
+                                         │  │   ├── Generate │
+                                         │  │   └── Verify   │
+                                         │  └── End Process  │
+                                         │      └── Email    │
+                                         └────────────────── ┘
                                                    ↓
                                          ┌──────────────────┐
                                          │  OUTPUT          │
-                                         │  ├── PDFs (10)   │
+                                         │  ├── PDFs        │
                                          │  └── Email       │
                                          └──────────────────┘
 ```
@@ -85,12 +85,20 @@ This project implements a **Dispatcher-Performer** architecture using **UiPath R
 - **Automated signatures:** Controller of Examinations placeholder
 - **Timestamps:** Generation date included
 
-### 📧 Email Automation
-- **Batch email notification** after all PDFs are generated
-- **SMTP integration** with Gmail
-- **Multiple PDF attachments** (all 10 marksheets)
-- **Professional email body** with summary statistics
-- **Configurable recipients** and branding
+### 📧 Email Automation 
+- **Dual email modes:**
+  - **Individual emails:** Personalized emails to each student with their marksheet
+  - **Bulk admin email:** Single email to administrator with all marksheets
+- **Custom Input Dialog:** Interactive checkbox UI at runtime for email configuration
+- **Dynamic Orchestrator Assets:** Email preferences stored and retrieved from Orchestrator
+- **Conditional logic:** Workflows adapt based on user selection (individual/bulk/both)
+- **Personalized content:**
+  - Student-specific email addresses (`rollnumber@rajalakshmi.edu.in`)
+  - Custom subject lines with roll numbers
+  - Detailed grade summaries in email body
+- **SMTP integration** with Outlook/Gmail
+- **Professional plain-text formatting** (email-client compatible)
+- **Configurable recipients** and institutional branding
 
 ### 🔐 Error Handling
 - **Business Rule Exceptions:** Invalid marks, missing data
@@ -150,277 +158,6 @@ F:\UiPath\Final Project\
 
 ### Config.xlsx Settings
 
-The `Data/Config.xlsx` file contains all system configurations:
-
-| Setting | Value | Description |
-|---------|-------|-------------|
-| **OrchestratorQueueName** | MarksheetQueue | Name of the queue in Orchestrator |
-| **PythonScriptPath** | Scripts\generate_marksheet.py | Relative path to Python script |
-| **OutputFolderPath** | Data\Output | PDF output directory (relative) |
-| **InstitutionName** | ABC University | Institution name on marksheets |
-| **LogF_BusinessProcessName** | MarksheetGeneration | Process name for logging |
-| **MaxRetryNumber** | 2 | Maximum retry attempts for failures |
-| **RetryNumberGetTransactionItem** | 3 | Queue fetch retry count |
-| **LogToConsole** | True | Enable console logging |
-| **MinimumLogLevel** | Information | Minimum log level (Info/Debug/Trace) |
-
-**Email Configuration (hardcoded in Main.xaml):**
-- SMTP Server: smtp.gmail.com
-- Port: 587
-- EnableSSL: True
-- Gmail App Password required
-
----
-
-## 🚀 Installation & Setup
-
-### Prerequisites
-
-1. **UiPath Studio** 2024.x or later
-2. **Python 3.x** installed on system
-3. **Python ReportLab library:**
-   ```powershell
-   pip install reportlab
-   ```
-4. **UiPath Orchestrator** access (Community or Enterprise)
-5. **Gmail account** with App Password (for email notifications)
-
-### Installation Steps
-
-1. **Clone/Extract Project**
-   ```
-   Extract to: F:\UiPath\Final Project\
-   ```
-
-2. **Open in UiPath Studio**
-   - File → Open → Select `project.json`
-
-3. **Update Config.xlsx**
-   - Navigate to `Data\Config.xlsx`
-   - Verify all 9 settings (see Configuration table above)
-   - Save changes
-
-4. **Verify Python**
-   ```powershell
-   python --version          # Should show Python 3.x
-   pip show reportlab        # Should show installed
-   ```
-
-5. **Test Python Script**
-   ```powershell
-   cd F:\UiPath\Final Project
-   python Scripts\generate_marksheet.py
-   # Should generate test_marksheet.pdf
-   ```
-
-6. **Create Orchestrator Queue**
-   - Login to Orchestrator
-   - Queues → Add Queue
-   - Name: `MarksheetQueue`
-   - Max retries: 2
-   - Enable "Unique Reference"
-   - Save
-
-7. **Update Email Credentials**
-   - Open `Main.xaml`
-   - Navigate to End Process state
-   - Find "Send SMTP Mail Message" activity
-   - Update:
-     - From: your_email@gmail.com
-     - To: recipient@gmail.com
-     - Username: your_email@gmail.com
-     - Password: your_16_char_app_password
-
----
-
-## 🎮 Usage
-
-### Running Locally (Development/Testing)
-
-**Step 1: Run Dispatcher**
-```
-1. Open AddTestQueueItem.xaml in Studio
-2. Press F5 (Debug) or Click Run
-3. Verify: Output shows "Rows read: 10"
-4. Check Orchestrator → MarksheetQueue → 10 items with Status: New
-```
-
-**Step 2: Run Performer**
-```
-1. Open Main.xaml in Studio
-2. Press F5 (Debug) or Click Run
-3. Watch execution:
-   - Initialization → Load Config
-   - Get Transaction Data → Fetch queue item
-   - Process Transaction → Generate PDF
-   - Set Transaction Status → Mark Successful
-   - (Repeats for all 10 students)
-   - End Process → Send email with PDFs
-4. Verify results:
-   - Data\Output\ → 10 PDF files
-   - Orchestrator Queue → All items "Successful"
-   - Email inbox → 1 email with 10 attachments
-```
-
-### Running in Production (Orchestrator)
-
-**Step 1: Publish Processes**
-```
-Dispatcher:
-  - Open AddTestQueueItem.xaml
-  - Publish → Publish to Orchestrator
-  - Version: 1.0.0
-  - Package Name: Dispatcher_MarksheetQueue
-
-Performer:
-  - Open Main.xaml
-  - Publish → Publish to Orchestrator
-  - Version: 1.0.0
-  - Package Name: Performer_MarksheetGeneration
-```
-
-**Step 2: Create Processes in Orchestrator**
-```
-1. Automations → Processes → Add Process
-2. Select: Dispatcher_MarksheetQueue package
-3. Name: Dispatcher_MarksheetQueue
-4. Create
-
-5. Add Process again
-6. Select: Performer_MarksheetGeneration package
-7. Name: Performer_MarksheetGeneration
-8. Create
-```
-
-**Step 3: Execute**
-```
-Option A: Manual Execution
-  1. Start Job → Dispatcher_MarksheetQueue
-  2. Wait for completion (30 seconds)
-  3. Start Job → Performer_MarksheetGeneration
-  4. Monitor in Jobs section
-
-Option B: UiPath Assistant
-  1. Open UiPath Assistant (system tray)
-  2. Run → Dispatcher_MarksheetQueue
-  3. Run → Performer_MarksheetGeneration
-```
-
----
-
-## 📊 Sample Data Format
-
-The `Data/Input/Sample_Student_Data.csv` file should have these columns:
-
-```csv
-Name,RollNumber,DOB,Semester,Year,Department,Subject1,Mark1,Subject2,Mark2,Subject3,Mark3,Subject4,Mark4,Subject5,Mark5
-Alice Johnson,2024001,15-Jan-2000,Fall 2024,2024,Computer Science,Mathematics,95,Physics,88,Chemistry,82,English,75,Programming,92
-Bob Smith,2024002,20-Feb-2000,Fall 2024,2024,Electrical Engineering,Mathematics,78,Physics,85,Electronics,90,English,70,Programming,88
-...
-```
-
-**10 test students are included** with varying marks to demonstrate all grade levels.
-
----
-
-## 🔍 Workflow Details
-
-### Dispatcher Workflow (AddTestQueueItem.xaml)
-
-**Purpose:** Load student data from CSV and populate Orchestrator queue
-
-**Steps:**
-1. **Read CSV** → Load student records into DataTable
-2. **Log Count** → Display number of students found
-3. **For Each Row** → Iterate through student records
-   - **Add Queue Item** → Create transaction with 16 fields:
-     - Student info: Name, Roll Number, DOB, Semester, Year, Department
-     - Subjects 1-5: Subject name, Mark (Int32)
-   - **Reference:** Roll Number (unique identifier)
-4. **Log Success** → Confirm queue population
-
-**Variables:**
-- `dtStudents` (DataTable): Student records
-- `csvPath` (String): "Data\Input\Sample_Student_Data.csv"
-- `queueName` (String): "MarksheetQueue"
-
----
-
-### Performer Workflow (Process.xaml)
-
-**Purpose:** Process each queue item to generate and verify PDF
-
-**Steps:**
-
-**1. Data Extraction (16 Assign activities)**
-```vb
-varName = in_TransactionItem.SpecificContent("Name").ToString
-varRollNumber = in_TransactionItem.SpecificContent("RollNumber").ToString
-... (14 more fields)
-varMark1 = Convert.ToInt32(in_TransactionItem.SpecificContent("Mark1"))
-... (4 more marks)
-```
-
-**2. Validation & Calculation (Invoke Code)**
-```vb
-' Validate marks (0-100)
-' Calculate grades (A/B/C/D/E/F)
-' Calculate GPA (average grade points)
-' Outputs: varGrade1-5, varGPA
-```
-
-**3. Build PDF Path (Assign)**
-```vb
-varPDFPath = Path.Combine(
-    in_Config("OutputFolderPath").ToString,
-    "Marksheet_" + varRollNumber + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf"
-)
-```
-
-**4. Generate PDF (Invoke Code - Python)**
-```vb
-' Calls Python script with 24 parameters
-' System.Diagnostics.Process to execute python.exe
-' Arguments: student data, grades, GPA, output path
-' Wait for completion
-```
-
-**5. Verify PDF (Path Exists + If)**
-```vb
-If pdfExists Then
-    Log "PDF generated successfully"
-Else
-    Throw New BusinessRuleException("PDF generation failed")
-End If
-```
-
-**Variables (23 total):**
-- String: varName, varRollNumber, varDOB, varSemester, varYear, varDepartment, varSubject1-5, varGrade1-5, varPDFPath
-- Int32: varMark1-5
-- Double: varGPA
-
----
-
-### Email Notification (Main.xaml - End Process)
-
-**Purpose:** Send batch email with all generated PDFs after processing completes
-
-**Implementation:**
-```vb
-' Get all PDF files
-emailAttachments = Directory.GetFiles("Data\Output", "*.pdf")
-
-' Send SMTP email
-To: configured_recipient@gmail.com
-Subject: "Marksheet Generation Complete - [Date]"
-Body: Summary with PDF count and timestamp
-Attachments: All PDFs in Output folder
-```
-
----
-
-## 🧪 Testing
-
 ### Unit Testing
 
 **Test Python Script Independently:**
@@ -454,9 +191,9 @@ python Scripts\generate_marksheet.py
 1. Run Dispatcher → Queue populated
 2. Run Performer → All processed
 3. Verify:
-   - 10 PDFs in Data\Output\
-   - 10 queue items "Successful"
-   - Email received with 10 attachments
+   - PDFs in Data\Output\
+   - queue items "Successful"
+   - Email received with attachments
 ```
 
 ### Error Testing
@@ -550,8 +287,8 @@ Solution: Use hardcoded values in Main.xaml, in_Config only works in Framework w
 
 **❌ Orchestrator Robot Error (#1230)**
 ```
-Issue: Unattended robot not configured
-Solution: Run from UiPath Studio or UiPath Assistant for degree project demo
+Issue: Unattended robot not configured or setup primarily due to license constraints or windows permissions
+Solution: Run from UiPath Studio or UiPath Assistant 
 ```
 
 ---
@@ -614,12 +351,7 @@ This project demonstrates:
 
 ### Potential Improvements
 
-**1. Individual Student Emails**
-- Send each student their own marksheet via email
-- Requires email column in CSV
-- Personalized subject and body
-
-**2. Database Integration**
+**1. Database Integration**
 - Replace CSV with SQL Server/MySQL
 - Real-time data sync with student information system
 - Historical grade tracking
@@ -662,7 +394,7 @@ This project is created for educational purposes as part of a degree program.
 
 **Usage:** Free for educational and non-commercial use  
 **Restrictions:** Commercial use requires permission  
-**Attribution:** Please credit original creator if modified/redistributed
+**Attribution:** Please credit original creator (me) if modified/redistributed
 
 ---
 
